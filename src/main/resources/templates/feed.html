@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <title>Log in</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="/custom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/custom.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div th:replace="fragments/navbar"></div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" th:classappend="${filter == 'all' ? 'active' : '' }">
+                <a href="/posts">All</a></li>
+            <li role="presentation" th:classappend="${filter == 'following' ? 'active' : '' }">
+                <a href="/posts?filter=following">Following</a></li>
+        </ul><br/>
+        <h2>Posts</h2>
+        <div th:each="post:${postList}">
+            <h5>@<span th:text="${post.user.username}"></span>
+                <small th:text="${post.date}"></small></h5>
+            <p th:utext="${post.message}"></p>
+    	</div>
+    </div>
+    <div th:if="${#lists.isEmpty(postList) and filter == 'all'}">
+        <h3>No posts have been created yet</h3>
+    </div>
+    <div th:if="${#lists.isEmpty(postList) and filter == 'following'}">
+        <h3>No posts have been created by your followers</h3>
+    </div>
+</body>
+</html>
